@@ -1,0 +1,13 @@
+// Unfortuntly this method is not wroking &&&&&&&&&&&&&&&&
+
+// @use "sass:map";
+
+// $custom-theme-colors: (
+//   "primary": $primary,
+//   "secondary-1": $secondary-1,
+//   "secondary-2": $secondary-2,
+// );
+
+// $theme-colors: map.merge($theme-colors, $custom-theme-colors);
+
+// $theme-colors: map.set($theme-colors, "test", #1aff66);

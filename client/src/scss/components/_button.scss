@@ -1,0 +1,28 @@
+@use "src/scss/custom-bootstrap" as *;
+
+.section-action-button {
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  padding: 1.2rem 2rem;
+  // min-width: 250px;
+  font-weight: 600;
+  border: black 1px;
+  border-radius: 2rem;
+}
+
+.secondary-font-color {
+  color: $light;
+}
+
+.secondary-1 {
+  background-color: $secondary-1;
+}
+
+.button--large {
+  width: 100%;
+  max-width: 350px;
+}
+
+.button--medium {
+  width: 100%;
+  max-width: 280px;
+}

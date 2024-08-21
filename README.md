@@ -1,1 +1,12 @@
 # AhmedAliCompetition
+        - Go to frontend and create the regisntr view and login view
+            - Add react router and and its routes
+            - Add useAuth to handle login in function and logout function
+            - Finish protectd handling function
+            - Crete home page
+            - Add basic layout element
+            - Add into it apiModule
+            - put userData into localstorage and then check before protecteed routes is authenticated or not
+            - 
+        - Integrate firebase realtime database with django and do some basic calulation
+        - 
