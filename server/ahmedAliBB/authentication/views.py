@@ -35,7 +35,7 @@ def login_view(request):
             }
             return JsonResponse({"user_data": user_data})
         else:
-            return JsonResponse({"message": "Invalid username and/or password"})
+            return JsonResponse({"message": "Invalid username and/or password"}, status=403)
 
 @csrf_exempt
 def logout_view(request):

@@ -1,6 +1,6 @@
 import { useState, useEffect, useState } from 'react'
 import useAuth from './useAuth'
-import { handleNetworkErrors, handleResponseErrors } from '../helper/helperFunctions'
+import { handleNetworkErrors, handleResponseNotification } from '../helper/helperFunctions'
 import useApp from './useApp'
 
 const useAxiosFetch = ({ reqOptions, trigger, message, loader, successCallback, errCallback }) => {
@@ -25,7 +25,7 @@ const useAxiosFetch = ({ reqOptions, trigger, message, loader, successCallback, 
                     method: reqOptions?.method || 'GET',
                     ...reqOptions
                 }, { signal: controller.signal })
-                handleResponseErrors(response, message || '', function () {
+                handleResponseNotification(response, message || '', function () {
                     setData(response?.data)
                     successCallback && successCallback(response?.data)
                 }, function () {

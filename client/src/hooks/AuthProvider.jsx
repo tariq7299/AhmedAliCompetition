@@ -6,6 +6,7 @@ import axios from 'axios';
 // import { usersCatApiInstance } from '../helper/axiosInstances';
 import { errorHandler } from '../helper/helperFunctions';
 import { apiUrl } from '../helper/axiosInstances';
+import { handleNetworkErrors, handleResponseNotification } from '../helper/helperFunctions';
 
 const AuthContext = createContext();
 
@@ -33,21 +34,39 @@ function AuthProvider({ children }) {
 
   // This will log the user in
   async function logIn(loginData) {
+
     try {
+
       console.log("loginData", loginData)
       const response = await apiUrl.post('authentication/login',
         loginData,
       );
+
+      handleResponseNotification()
+
       console.log("response", response)
       const res = response.data;
+      
       if (!res.user_data) {
-        throw new Error(res.message);
+        throw new Error("Somthing went wrong ! Please contact support!"); 
       }
-      localStorage.setItem('userData', res.user_data.username);
+
+      const saveUesrDataInStorage = () => {
+        localStorage.setItem('userData', res.user_data.username)
+      }
+
+      handleResponseNotification(response, response?.data?.message, saveUesrDataInStorage)
+
       navigate('/');
+
     } catch (error) {
+
       console.log("error", error)
-      errorHandler(error, navigate)
+
+      handleNetworkErrors(error)
+
+      // errorHandler(error, navigate)
+
     }
   }
 

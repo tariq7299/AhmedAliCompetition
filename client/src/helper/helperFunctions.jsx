@@ -1,5 +1,6 @@
 import { toast } from 'react-toastify'
 
+
 export const errorHandler = (error, addAlert, navigate) => {
     if (
         error.response &&
@@ -25,8 +26,7 @@ export const errorHandler = (error, addAlert, navigate) => {
 
 
 
-
-export function handleResponseErrors(response, message, successCallback, errorCallback) {
+export function handleResponseNotification(response, message, successCallback, errorCallback) {
 
     // ... In Case of a success response
     if (response?.data?.success) {
@@ -61,12 +61,14 @@ export function handleResponseErrors(response, message, successCallback, errorCa
 
 
 export function handleNetworkErrors(err) {
-    if (err?.response?.status === 419 || err?.response?.status === 401) {
-        toast.error('انتهت صلاحية دخولك، برجاء تسجيل الدخول مرة أخرى')
+    if (err?.response?.status === 401) {
+        toast.error('Please log in!')
+
         setTimeout(() => {
             window.location.href = '/login'
         }, 4000)
-    } else if (err?.response?.status === 422) {
+    } else if (err?.response?.status === 403) {
+        console.log("err.response", err.response)
         toast.error(err?.response?.data?.message)
     } else {
         err?.code !== 'ERR_CANCELED' && (

@@ -4,6 +4,8 @@ import Login from "./pages/login";
 import PrivateRoute from "./pages/PrivateRoute";
 import AuthProvider from "./hooks/AuthProvider";
 import Layout from "./components/common/Layout";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
 
@@ -11,6 +13,7 @@ function App() {
     <>
       <BrowserRouter>
       <AuthProvider>
+      <ToastContainer/>
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />

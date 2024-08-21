@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { handleNetworkErrors, handleResponseErrors } from "../helpers/errorHandling"
+import { handleNetworkErrors, handleResponseNotification } from "../helpers/errorHandling"
 import useAuth from "./useAuth"
 import useApp from "./useApp"
 
@@ -20,7 +20,7 @@ function useAxiosSend() {
                 ...reqOptions,
                 method: reqOptions?.method || 'POST'
             })
-            handleResponseErrors(response, response?.data?.message || message, function () {
+            handleResponseNotification(response, response?.data?.message || message, function () {
                 setResData(response?.data)
                 successCallback && successCallback(response?.data)
             }, function () {
