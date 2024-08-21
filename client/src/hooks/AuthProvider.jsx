@@ -4,7 +4,8 @@ import { useNavigate } from 'react-router-dom';
 // import { useAlert } from './AlertProvider';
 import axios from 'axios';
 // import { usersCatApiInstance } from '../helper/axiosInstances';
-// import errorHandler from '../helper/helperFunctions';
+import { errorHandler } from '../helper/helperFunctions';
+import { apiUrl } from '../helper/axiosInstances';
 
 const AuthContext = createContext();
 
@@ -21,9 +22,7 @@ function AuthProvider({ children }) {
   // I could check the cookies for the stored token without sending a request to server !, but i can't !! because the backend is like a mock api without a real database !
   function checkIfAuthenticated() {
     // const token = Cookies.get('token');
-
     const currentUser = getUserData();
-
     if (!currentUser) {
       return false
     } else {
@@ -35,39 +34,59 @@ function AuthProvider({ children }) {
   // This will log the user in
   async function logIn(loginData) {
     try {
+      console.log("loginData", loginData)
+      const response = await apiUrl.post('authentication/login',
+        loginData,
+      );
+      console.log("response", response)
+      const res = response.data;
+      if (!res.user_data) {
+        throw new Error(res.message);
+      }
+      localStorage.setItem('userData', res.user_data.username);
+      navigate('/');
+    } catch (error) {
+      console.log("error", error)
+      errorHandler(error, navigate)
+    }
+  }
+
+  // This will log the user in
+  async function register(userData) {
+    try {
+      
       // TASK #1: Fetch data from an API
       // Use Axios
       // Handle errors
-      const response = await axios.post(
-        'http://localhost:3000/api/login',
-        loginData,
+      const response = await apiUrl.post(
+        'authentication/register',
+        userData,
       );
+
+      console.log("response", response)
 
       const res = response.data;
 
-      if (!res.userData) {
+      console.log("res", res)
+
+      if (!res.user_data) {
         throw new Error(res.message);
       }
 
-      localStorage.setItem('userData', res.userData.username);
+      localStorage.setItem('userData', res.user_data.username);
+
       navigate('/');
     } catch (error) {
-      consol.log("error", error)
-      // errorHandler(error, addAlert, navigate)
+      console.log("error", error)
+      errorHandler(error, navigate)
     }
   }
 
   // THis will handle when user presses on "Exit" button
   async function logOut() {
     try {
-      // TASK #1: Fetch data from an API
-      // Use Axios
-      // Handle errors
-      // const response = await usersCatApiInstance.post(
-      //   '/logout'
-      // );
       const response =  await axios.post(
-        'http://localhost:3000/api/login',
+        `${apiUrl}/logout`,
         '/logout'
       );
 
@@ -75,15 +94,13 @@ function AuthProvider({ children }) {
 
       if (response.status === 200 || response.status === 204) {
         console.log("response", response)
-        // addAlert(response.data.message, 'success');
         alert(response.data.message)
         localStorage.removeItem('userData');
-        // Cookies.remove('token');
         navigate('/login');
       }
 
     } catch (error) {
-      // errorHandler(error, addAlert, navigate)
+      errorHandler(error, navigate)
     }
 
  
@@ -91,7 +108,7 @@ function AuthProvider({ children }) {
 
   return (
     <AuthContext.Provider
-      value={{ checkIfAuthenticated, logIn, logOut, getUserData }}
+      value={{ checkIfAuthenticated, register,  logIn, logOut, getUserData }}
     >
       {children}
     </AuthContext.Provider>

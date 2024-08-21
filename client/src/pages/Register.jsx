@@ -12,6 +12,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { useAuth } from '../hooks/AuthProvider';
 
 function Copyright(props) {
     return (
@@ -31,14 +32,22 @@ function Copyright(props) {
 const defaultTheme = createTheme();
 
 export default function Register() {
+
+    const {register} = useAuth();
+
     const handleSubmit = (event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
-        console.log({
-            email: data.get('email'),
+        const userData = {
+            firstName: data.get('firstName'),
+            lastName: data.get('lastName'),
+            username: data.get('username'),
             password: data.get('password'),
-        });
+            confirmPassword: data.get('confirmPassword'),
+        }
+        register(userData)
     };
+
 
     return (
         <ThemeProvider theme={defaultTheme}>
@@ -85,10 +94,10 @@ export default function Register() {
                                 <TextField
                                     required
                                     fullWidth
-                                    id="email"
-                                    label="Email Address"
-                                    name="email"
-                                    autoComplete="email"
+                                    id="username"
+                                    label="User name"
+                                    name="username"
+                                    autoComplete="username"
                                 />
                             </Grid>
                             <Grid item xs={12}>
@@ -97,6 +106,17 @@ export default function Register() {
                                     fullWidth
                                     name="password"
                                     label="Password"
+                                    type="password"
+                                    id="password"
+                                    autoComplete="new-password"
+                                />
+                            </Grid>
+                            <Grid item xs={12}>
+                                <TextField
+                                    required
+                                    fullWidth
+                                    name="confirmPassword"
+                                    label="Confirm password"
                                     type="password"
                                     id="password"
                                     autoComplete="new-password"

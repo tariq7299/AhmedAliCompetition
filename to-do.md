@@ -14,11 +14,15 @@
 
 
 ### NOT IMPORTANT
+- Add api before backend route
 - Integrate postgres
 - Create multi postgres server on two seperate server athat any request will be sent to both and saved to both
 - Use websocket in the tables view
 - USE JWT INSTEAD OF 
 - Add csrf token
+- use toast insteal of alerts
+- use error handling just like in bolesa
+
 
 # Frontend
 
@@ -30,3 +34,5 @@
 - Add api Table module into the application then add scss and other compoentnes
 - Add loading providers and compoentes
 - Add current logged in user
+- Add links to already have an account and new user 
+-n 

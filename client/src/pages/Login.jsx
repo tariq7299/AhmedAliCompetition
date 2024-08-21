@@ -12,6 +12,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { useAuth } from '../hooks/AuthProvider';
 
 function Copyright(props) {
     return (
@@ -31,13 +32,24 @@ function Copyright(props) {
 const defaultTheme = createTheme();
 
 export default function Login() {
+
+    const {logIn} = useAuth();
+
     const handleSubmit = (event) => {
+        
         event.preventDefault();
+        console.log("event.currentTarget", event.currentTarget)
+        
         const data = new FormData(event.currentTarget);
-        console.log({
-            email: data.get('email'),
+        console.log("data", data)
+        
+        const userData = {
+            username: data.get('username'),
             password: data.get('password'),
-        });
+        }
+        console.log("userData", userData)
+        logIn(userData)
+
     };
 
     return (
@@ -63,10 +75,10 @@ export default function Login() {
                             margin="normal"
                             required
                             fullWidth
-                            id="email"
-                            label="Email Address"
-                            name="email"
-                            autoComplete="email"
+                            id="username"
+                            label="User name"
+                            name="username"
+                            autoComplete="username"
                             autoFocus
                         />
                         <TextField
