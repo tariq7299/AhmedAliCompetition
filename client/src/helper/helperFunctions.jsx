@@ -1,32 +1,9 @@
 import { toast } from 'react-toastify'
 
-
-export const errorHandler = (error, addAlert, navigate) => {
-    if (
-        error.response &&
-        error.response.status === 401 &&
-        error.response.data.message === 'Invalid token'
-    ) {
-        // Redirect to login page or handle unauthorized access
-        alert('Unauthorized access, please log in first !!')
-        // addAlert('Unauthorized access, please log in first !!', 'error');
-        navigate('/login');
-    } else if (
-        error.response &&
-        error.response.status === 401 &&
-        error.response.data.message === 'Invalid credentials'
-    ) {
-        alert('username/password is wrong ⛔');
-    } else {
-        // Handle other errors (e.g., show an error message)
-        console.error('Something bad happened! Please contact support.');
-        alert('Something bad happened ! Please contact support !');
-    }
-};
-
-
-
 export function handleResponseNotification(response, message, successCallback, errorCallback) {
+
+    console.log("message", message)
+    
 
     // ... In Case of a success response
     if (response?.data?.success) {
@@ -67,12 +44,12 @@ export function handleNetworkErrors(err) {
         setTimeout(() => {
             window.location.href = '/login'
         }, 4000)
+
     } else if (err?.response?.status === 403) {
-        console.log("err.response", err.response)
         toast.error(err?.response?.data?.message)
     } else {
         err?.code !== 'ERR_CANCELED' && (
-            toast.error(err?.response?.data?.message || 'حدث خطأ ما، برجاء المحاولة لاحقًا')
+            toast.error(err?.response?.data?.message || 'Something bad happend! Please try again later')
         )
     }
 }

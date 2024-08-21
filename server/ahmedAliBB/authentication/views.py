@@ -22,25 +22,23 @@ def login_view(request):
         username = user_data["username"]
         password = user_data["password"]
         user = authenticate(request, username=username, password=password)
-
+        
         # Check if authentication successful
         if user is not None:
             login(request, user)
-            # user_data = UserSerializer(request.user).data
+          
             user_data = {
-                "username": request.user.username,
-                "email": request.user.email,
-                "firstname": request.user.first_name,
-                "lastname": request.user.last_name,
+                "username": username
             }
-            return JsonResponse({"user_data": user_data})
+            
+            return JsonResponse({"success":True, "user_data": user_data, "message": f"Welcome back ! {username}"})
         else:
             return JsonResponse({"message": "Invalid username and/or password"}, status=403)
 
 @csrf_exempt
 def logout_view(request):
     logout(request)
-    return JsonResponse({"message": "logout out successfully"})
+    return JsonResponse({"success": True, "message": "logout out successfully"})
 
 @csrf_exempt
 def register_view(request):
@@ -48,12 +46,9 @@ def register_view(request):
         
         user_data = json.loads(request.body)
         
-        print("user_data", user_data)
-         
         first_name = user_data["firstName"]
         last_name = user_data["lastName"]
         username = user_data["username"]
-        # Ensure password matches confirmation
         password = user_data["password"]
         confirm_password = user_data["confirmPassword"]
 
@@ -64,7 +59,7 @@ def register_view(request):
         }
 
         if password != confirm_password:
-            return JsonResponse({"message": "passwords doesn't match"})
+            return JsonResponse({"message": "passwords doesn't match"}, status=403)
 
         # Attempt to create new user
         try:
@@ -73,8 +68,7 @@ def register_view(request):
             user.last_name = last_name
             user.save()
         except IntegrityError:
-
-            return JsonResponse({"message": "Invalid username and/or password"})
+            return JsonResponse({"message": "Invalid username and/or password"}, status=403)
         
         login(request, user)
-        return JsonResponse({"user_data": user_data})
+        return JsonResponse({ "success": True, "user_data": user_data, "message": f"Happy Body Building! {first_name}"})

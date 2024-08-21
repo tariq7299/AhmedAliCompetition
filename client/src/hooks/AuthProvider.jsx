@@ -1,10 +1,5 @@
 import { useContext, createContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-// import Cookies from 'js-cookie';
-// import { useAlert } from './AlertProvider';
-import axios from 'axios';
-// import { usersCatApiInstance } from '../helper/axiosInstances';
-import { errorHandler } from '../helper/helperFunctions';
 import { apiUrl } from '../helper/axiosInstances';
 import { handleNetworkErrors, handleResponseNotification } from '../helper/helperFunctions';
 
@@ -37,14 +32,10 @@ function AuthProvider({ children }) {
 
     try {
 
-      console.log("loginData", loginData)
       const response = await apiUrl.post('authentication/login',
         loginData,
       );
 
-      handleResponseNotification()
-
-      console.log("response", response)
       const res = response.data;
       
       if (!res.user_data) {
@@ -55,17 +46,15 @@ function AuthProvider({ children }) {
         localStorage.setItem('userData', res.user_data.username)
       }
 
+      // console.log(response)
+
       handleResponseNotification(response, response?.data?.message, saveUesrDataInStorage)
 
       navigate('/');
 
     } catch (error) {
 
-      console.log("error", error)
-
       handleNetworkErrors(error)
-
-      // errorHandler(error, navigate)
 
     }
   }
@@ -82,22 +71,26 @@ function AuthProvider({ children }) {
         userData,
       );
 
-      console.log("response", response)
-
       const res = response.data;
 
-      console.log("res", res)
-
       if (!res.user_data) {
-        throw new Error(res.message);
+        throw new Error("Somthing went wrong ! Please contact support!");
       }
+
+      const saveUesrDataInStorage = () => {
+        localStorage.setItem('userData', res.user_data.username)
+      }
+
+      handleResponseNotification(response, response?.data?.message, saveUesrDataInStorage)
+
+      navigate('/');
 
       localStorage.setItem('userData', res.user_data.username);
 
       navigate('/');
     } catch (error) {
-      console.log("error", error)
-      errorHandler(error, navigate)
+
+      handleNetworkErrors(error)
     }
   }
 
@@ -108,17 +101,18 @@ function AuthProvider({ children }) {
         'authentication/logout'
       );
 
-
-
-      if (response.status === 200 || response.status === 204) {
-        console.log("response", response)
-        alert(response.data.message)
+      const removeUesrDataInStorage = () => {
         localStorage.removeItem('userData');
-        navigate('/login');
       }
 
+      handleResponseNotification(response, response?.data?.message, removeUesrDataInStorage)
+
+      navigate('/login');
+
+
     } catch (error) {
-      errorHandler(error, navigate)
+
+      handleNetworkErrors(error)
     }
 
  

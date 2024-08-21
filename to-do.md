@@ -11,6 +11,9 @@
 - Add extensive validation on backend forms sub
 - Create athlete model that has the following columns(name, age, weight, heghti, status, place, division, )
 - Write sceniarios where i we can fuck upp so bad and elemenat them !
+- Containerize the app and run the container on users devices
+- Add unique number field that admin has to enter correctly if order to be able to create an account
+
 
 
 ### NOT IMPORTANT
@@ -22,6 +25,9 @@
 - Add csrf token
 - use toast insteal of alerts
 - use error handling just like in bolesa
+- Change the over all theme colors and font
+- Add frontent base url and to env variagle
+- try to contaierize the application and self host it from home using nginx
 
 
 # Frontend
@@ -36,3 +42,6 @@
 - Add current logged in user
 - Add links to already have an account and new user 
 -n 
+
+### NOT IMPORTATN
+- Add welcome notification tosast by the recently lgged in user
