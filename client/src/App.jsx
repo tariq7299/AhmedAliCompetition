@@ -3,6 +3,7 @@ import Register from "./pages/register";
 import Login from "./pages/login";
 import PrivateRoute from "./pages/PrivateRoute";
 import AuthProvider from "./hooks/AuthProvider";
+import Layout from "./components/common/Layout";
 
 function App() {
 
@@ -14,10 +15,10 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
             <Route element={<PrivateRoute />}>
-              <Route element={<h1>LAYOUT COMP</h1>}>
+              <Route element={<Layout />}>
                 <Route index element={<h2>HOME PAGE</h2>} />
               </Route>
-              {/* <Route path="/" element={<Home />}></Route> */}
+             
             </Route>
          
         </Routes>

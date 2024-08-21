@@ -85,9 +85,8 @@ function AuthProvider({ children }) {
   // THis will handle when user presses on "Exit" button
   async function logOut() {
     try {
-      const response =  await axios.post(
-        `${apiUrl}/logout`,
-        '/logout'
+      const response =  await apiUrl.get(
+        'authentication/logout'
       );
 
 

@@ -22,6 +22,7 @@ const PrivateRoute = () => {
     const checkAuthentication = () => {
       try {
         const isAuthenticatedResult = checkIfAuthenticated();
+        console.log("isAuthenticatedResult", isAuthenticatedResult)
         setIsAuthenticated(isAuthenticatedResult);
         setIsLoading(false);
       } catch (error) {
@@ -30,9 +31,11 @@ const PrivateRoute = () => {
         setIsLoading(false);
       }
     };
-
+    
     checkAuthentication();
   }, []);
+  
+  console.log("isAuthenticated", isAuthenticated)
 
   // IF the server didn't yet respond then show a loaidn spinner
   if (isLoading) {

@@ -40,7 +40,7 @@ def login_view(request):
 @csrf_exempt
 def logout_view(request):
     logout(request)
-    return JsonResponse({"logout out successfully"})
+    return JsonResponse({"message": "logout out successfully"})
 
 @csrf_exempt
 def register_view(request):
